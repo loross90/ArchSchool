@@ -1,21 +1,31 @@
 # Контекст решения
+
 <!-- Окружение системы (роли, участники, внешние системы) и связи системы с ним. Диаграмма контекста C4 и текстовое описание. 
 Подробнее: https://confluence.mts.ru/pages/viewpage.action?pageId=375783261
 -->
+
 ```plantuml
 @startuml
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+LAYOUT_LEFT_RIGHT()
 
-LAYOUT_WITH_LEGEND()
+Boundary(usrs, "Пользователи"){
+    Person(spk, "Докладчик", "Тот, кто рассказывает свой доклад")
+    Person(lst, "Слушатель", "Тот, кто наблюдает за конференцией")
+    Person(mod, "Модератор", "Тот, кто составляет программу конференции")
+}
 
-Person(pbc, "Personal Banking Customer", "A customer of the bank, with personal bank accounts.")
-System(ibs, "Internet Banking System", "Allows customers to view information about their bank accounts, and make payments.")
-System_Ext(es, "E-mail system", "The internal Microsoft Exchange e-mail system.")
-System_Ext(mbs, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
+System_Boundary(sys, "Система обеспечения конференции"){
 
-Rel(pbc, ibs, "Uses")
-Rel(es, pbc, "Sends e-mails to")
-Rel(ibs, es, "Sends e-mails", "SMTP")
-Rel(ibs, mbs, "Uses")
+    System(conf, "Web Application", "Позволяет пользователям получать информацию о конференциях и взаимодействовать с ними.")
+    System_Ext(ns, "Communicator", "Подсистема для взаимодействия с пользователями")
+   System_Ext(data, "Data Accessor", "Подсистема доступа к данным конференций")
+}
+
+Rel(usrs, conf, "Uses")
+Rel(data, ns, "Notifies")
+BiRel(conf, data, "Uses")
+Rel(ns, usrs, "Sends message")
+Rel(conf, ns, "Uses")
 @enduml
 ```
