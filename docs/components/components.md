@@ -14,7 +14,7 @@ Person(listner, "Слушатель")
 
 System_Boundary(conf, "Helloconf MTS (Proto)"){
       
-      Boundary(kernel, "Управление конференцией"){
+      Boundary(kernel, "Конференция"){
       Container(front, "Клиентское веб-приложение", "html, JavaScript, React", "Веб-форма конференции")
 
       Container(back, "Клиентское веб-приложение", ".NET Core, C#", "Сервис управления данными о конференциях")
@@ -22,7 +22,7 @@ System_Boundary(conf, "Helloconf MTS (Proto)"){
       ComponentDb(database, "База данных", "MongoDB")
    }
    Boundary(not, "Уведомления о конференциях"){
-      Container(notifier, "Серверная часть", ".NET Core, C#", "Сервис уведомлений о событиях конференций")
+      Container(notifier, "Сервис уведомлений", ".NET Core, C#", "Сервис уведомлений о событиях конференций")
    }
 
    
